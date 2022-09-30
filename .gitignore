@@ -1,0 +1,7 @@
+ApiTranslatorLib.egg-info/*
+__pycache__/*
+dist/*
+.*
+ApiTranslator/**/__*__
+ApiTranslator/**/*.env
+tests/**/__*__
