@@ -26,7 +26,7 @@ python3 setup.py pytest
 
 ```python
 translator_module_to_english = DeepLTranslator(target_language_full="ENGLISH", source_language=None)
-text_in_french : str = translator_module_to_english.translate("Je suis une phrase en français.")
+text_in_english : str = translator_module_to_english.translate("Je suis une phrase en français.")
 ```
 
 ## DeepL Configuration
