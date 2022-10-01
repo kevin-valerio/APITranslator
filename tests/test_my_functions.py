@@ -1,4 +1,4 @@
-from src.ApiTranslator.DeepLTranslator import DeepLTranslator
+from src.ApiTranslator._deepLTranslator import DeepLTranslator
 
 
 def test_first_translation_in_french():

@@ -2,8 +2,8 @@ import os
 
 import deepl
 
-from . import managed_languages_DEEPL
-from . import APITranslator
+from ._config import managed_languages_DEEPL
+from ._baseclass import APITranslator
 from dotenv import load_dotenv
 
 from .Exceptions import DeepLAuthKeyNotSetException, DeepLAuthKeyWrongException, DeepLLanguageTargetNotManagedException
@@ -63,7 +63,7 @@ class DeepLTranslator(APITranslator):
 
     def managed_languages(self):
         """
-        Return a list of the languages managed by the module for DeepL. It can be configure in the config.py file
+        Return a list of the languages managed by the module for DeepL. It can be configure in the _config.py file
         :return: A dict that contains the language and his target_language named from the DeepL API point of view
         """
 
@@ -82,7 +82,7 @@ class DeepLTranslator(APITranslator):
             raise DeepLLanguageTargetNotManagedException(
                 f"The language {self.target_language_full} is not managed by the "
                 f"DeepL Module. Please add it to the configuration file "
-                f"'config.py' in the variable 'managed_languages_DEEPL'. The list of language managed is {list(self.managed_languages().keys())}")
+                f"'_config.py' in the variable 'managed_languages_DEEPL'. The list of language managed is {list(self.managed_languages().keys())}")
 
     def check_if_language_can_be_formal(self):
         """
@@ -96,7 +96,7 @@ class DeepLTranslator(APITranslator):
                 else:
                     return True
 
-        raise Exception("Could not find the supports_formality key in the config.py file for the "
+        raise Exception("Could not find the supports_formality key in the _config.py file for the "
                         "managed_languages_DEEPL variable, abort")
 
     def get_target_language_key(self):

@@ -1,3 +1,1 @@
-from ._baseclass import APITranslator
-from .config import managed_languages_DEEPL
-from .Exceptions import *
+from ._deepLTranslator import DeepLTranslator
