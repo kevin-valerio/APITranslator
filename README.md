@@ -8,16 +8,17 @@ For now, only the DeepL traductor is developed.
 ### Generate and install the package locally
 
 ```bash
-pip install setuptools
-python3 setup.py sdist
-python3 -m pip install dist/ApiTranslatorLib-VERSION.tar.gz
+pip install hatchling
+python3 -m pip install --upgrade build
+python3 -m build
+python3 -m pip install dist/ApiTranslator-VERSION.tar.gz
 ```
 ### Test the package
 
 ```bash
 pip install pytest
 pip install pytest-runner
-python3 setup.py pytest
+python3 -m pytest
 ```
 
 ## Usage
