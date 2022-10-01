@@ -5,19 +5,24 @@ For now, only the DeepL traductor is available.
 
 ## Installation
 
+### Install the dependencies with poetry
+```bash
+poetry install
+```
+### Go in your virtualenv
+```bash
+poetry shell
+```
+
 ### Generate and install the package locally
 
 ```bash
-pip install hatchling
-python3 -m pip install --upgrade build
 python3 -m build
 python3 -m pip install dist/ApiTranslator-VERSION.tar.gz
 ```
 ### Test the package
 
 ```bash
-pip install pytest
-pip install pytest-runner
 python3 -m pytest
 ```
 
