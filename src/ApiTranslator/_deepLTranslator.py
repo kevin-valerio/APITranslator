@@ -17,11 +17,9 @@ class DeepLTranslator(APITranslator):
     def __init__(self, target_language_full: str, source_language: str):
         self.target_language_full = target_language_full.upper()
         self.source_language = source_language
-        self.auth()
-        self.check_auth()
         self.check_if_language_managed()
 
-    def auth(self):
+    def _auth_from_env_file(self):
         """
         Load the KEY_DEEPL_API in the .env file to authentificate you on the DeepL API.
         :return:
@@ -29,8 +27,21 @@ class DeepLTranslator(APITranslator):
         load_dotenv()
         if not (os.getenv("KEY_DEEPL_API")):
             raise DeepLAuthKeyNotSetException(
-                "The Auth key for DeepL was not found in the .env file, please set it as 'KEY_DEEPL_API' ")
+                "The Auth key for DeepL was not found in the .env file, please set it as 'KEY_DEEPL_API'")
         self.translator_object = deepl.Translator(os.getenv("KEY_DEEPL_API"))
+        self.check_auth(
+            "The authentification key set in the .env is wrong, please check it, or use auth(key_deepl_api) to set it manually in your object.")
+        return
+
+    def auth(self, key_deepl_api=None):
+        """
+        Authentificate with a DeepL API pass directly in this function. If nothing pass, will try to load from the env file.
+        :return:
+        """
+        if not key_deepl_api:
+            return self._auth_from_env_file()
+        self.translator_object = deepl.Translator(key_deepl_api)
+        self.check_auth("The authentification key passed is wrong, please check it.")
 
     def translate(self, text_to_translate: str):
         """
@@ -40,24 +51,32 @@ class DeepLTranslator(APITranslator):
         :param target_language:
         :return: The text translated
         """
+        self.check_auth()
         if self.check_if_language_can_be_formal():
 
-            result = self.translator_object.translate_text(text_to_translate, target_lang=self.get_target_language_key(),
-                                                       formality="more", preserve_formatting=True)
+            result = self.translator_object.translate_text(text_to_translate,
+                                                           target_lang=self.get_target_language_key(),
+                                                           formality="more", preserve_formatting=True)
         else:
             result = self.translator_object.translate_text(text_to_translate,
-                                                           target_lang=self.get_target_language_key(), preserve_formatting=True)
+                                                           target_lang=self.get_target_language_key(),
+                                                           preserve_formatting=True)
         return result.text
 
-    def check_auth(self):
+    def check_auth(self, message_error=None):
         """
         Check if the authentification for the DeepL API is correct. For more information on how to setup it, visit the DeepL Api Website
         :return: An exeception if the check failed
         """
+        if not message_error:
+            message_error = "Authentification failed. Please use the method auth() before trying anything else."
+
+        if not self.translator_object:
+            raise DeepLAuthKeyNotSetException("Authentification failed because not set.Please use the method auth() before trying anything else.")
         try:
             self.translator_object.get_usage()
         except deepl.exceptions.AuthorizationException:
-            raise DeepLAuthKeyWrongException("The authentification key set in the .env is wrong, please check it")
+            raise DeepLAuthKeyWrongException(message_error)
         except Exception as e:
             raise e
 
