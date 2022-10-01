@@ -24,6 +24,10 @@ python3 setup.py pytest
 
 /!\ Coming soon /!\ , you can see for now the `test/` folder where there is an example.
 
+```python
+translator_module_to_english = DeepLTranslator(target_language_full="ENGLISH", source_language=None)
+text_in_english : str = translator_module_to_english.translate("Je suis une phrase en français.")
+```
 
 ## DeepL Configuration
 ### Get your DeepL API Key
