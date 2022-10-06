@@ -82,7 +82,7 @@ class DeepLTranslator(APITranslator):
 
     def managed_languages(self):
         """
-        Return a list of the languages managed by the module for DeepL. It can be configure in the _config.py file
+        Return a list of the languages managed by the module for DeepL. It can be configured in the _config.py file
         :return: A dict that contains the language and his target_language named from the DeepL API point of view
         """
 
